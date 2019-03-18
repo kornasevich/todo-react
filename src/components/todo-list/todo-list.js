@@ -4,21 +4,45 @@ import TodoListItem from '../todo-list-item/todo-list-item.js';
 import './todo-list.css';
 
 
-const TodoList = ( { todos } ) =>{
+export default class TodoList extends React.Component {
 
-    const elements = todos.map((item) => {
+    state = {
+        check: false
+    };
+
+    checkTaskColor = () => {
+        this.setState((state) =>{
+            return{
+                check: !state.check
+            }
+        });
+    };
+
+render(){
+
+    let classLists = 'list-group-item';
+
+    if(this.state.check){
+        classLists += ' check-task';
+    }
+
+    const elements = this.props.todos.map((item) => {
         return(
-            <li key={item.id} className='list-group-item'>
-                <TodoListItem date={item.date} label={item.label}/>
-            </li>
+                <TodoListItem key={item.id}
+                              className={classLists}
+                              date={item.date}
+                              label={item.label}
+                              onDeleted={()=>this.props.onDeleted(item.id)}
+                              checkedTask={this.checkTaskColor}
+                />
         );
     });
 
     return (
-        <ul className='list-group todo-list'>
+        <div className='list-group todo-list '>
             { elements }
-        </ul>
+        </div>
     );
-};
+}
 
-export default TodoList;
+};

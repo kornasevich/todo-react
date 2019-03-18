@@ -1,5 +1,6 @@
 .todo-list-item{
 font-size:19px;
+
 }
 
 .date-input{
@@ -13,15 +14,17 @@ margin-left:80px;
 .delete-task{
 float: right;
 margin-right:5px;
+margin-top: -2px;
 }
 
 .complete-task{
 float: right;
 width:40px;
 cursor: pointer;
+margin-top: -2px;
 }
 
-.complete-task:hover{
+.complete-task, .delete-task:hover{
 cursor: pointer;
 }
 
@@ -31,4 +34,18 @@ text-decoration: line-through;
 
 .background-done{
 background-color: green;
+}
+
+.check-task{
+background-color: lightgreen;
+}
+
+.todo-list-item-block{
+border: 1px solid lightgray;
+height:60px;
+margin-bottom:10px;
+}
+
+.todo-list-item-content{
+margin:4px;
 }

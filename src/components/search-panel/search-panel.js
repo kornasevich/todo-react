@@ -1,30 +1,36 @@
 import React from 'react';
 
 import './search-panel.css';
-import ItemStatusFilter from '../item-status-filter/item-status-filter.js';
 
-const SearchPanel = () =>{
 
-    const searchText = 'Type search';
+export default class SearchPanel extends React.Component{
+
+    state = {
+        term: ''
+    };
+
+    onSearchChange = (event) =>{
+      const term =  event.target.value;
+      this.setState({term});
+      this.props.onSearchChange(term);
+    };
+
+render(){
+    const searchText = 'Search';
     const searchStyle = {
         fontSize: '20px'
     };
 
-    return (
-        <div className='search-panel-block'>
-
-            <input
-                className='form-control todo-task-date'
-                type='date' />
-
-             <input
-               className='search-panel form-control'
-               placeholder={searchText}
-               style={searchStyle}
-              />
-            <ItemStatusFilter />
-        </div>
-    );
+        return (
+            <form  className="search-input">
+                <input
+                    className='search-panel form-control'
+                    placeholder={searchText}
+                    style={searchStyle}
+                    value={this.state.term}
+                    onChange={this.onSearchChange}
+                    />
+            </form>
+        );
+    }
 };
-
-export default SearchPanel;

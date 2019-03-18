@@ -1,0 +1,14 @@
+.todo-list-item-add{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.todo-task-text-add{
+    width:320px;
+    height: 44px;
+    font-size: 20px;
+}
+.btn-add{
+    margin-left: 8px;
+    width:99px;
+}
