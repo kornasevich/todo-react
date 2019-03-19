@@ -20,15 +20,19 @@ export default class App extends React.Component {
         valueMax: ''
     };
 
+   onCheck = (id) =>{
+       this.setState((state) => {
+           const idx = state.todoData.findIndex((el) => el.id === id);
+           const lcArray = JSON.parse(localStorage.getItem('Tasks')).slice();
+           lcArray[idx].check = !lcArray[idx].check;
+           localStorage.setItem('Tasks', JSON.stringify(lcArray));
+           return{
+               todoData: lcArray
+           }
+       });
 
-/*(function(){
-        const returnObj = JSON.parse(localStorage.getItem("myKey"));
-    this.setState((state)=>{
-        return{
-             todoData: returnObj
-        }
-    })
-    })();*/
+   };
+
    onSearchChange = (term) =>{
       this.setState({term});
     };
@@ -82,7 +86,7 @@ export default class App extends React.Component {
          date: date,
          label: text,
          id: this.maxId++,
-         check: true
+         check: false
      };
 
      this.setState((state) => {
@@ -176,6 +180,7 @@ render(){
             <TodoList
                 todos={visibleItems}
                 onDeleted={this.deleteItem}
+                onCheck={this.onCheck}
             />
             <div className="search-panel d-flex">
             </div>

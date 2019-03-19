@@ -35,6 +35,7 @@ render(){
                               onDeleted={()=>this.props.onDeleted(item.id)}
                               checkedTask={this.checkTaskColor}
                               check={item.check}
+                              onCheck={()=>{this.props.onCheck(item.id)}}
                 />
         );
     });

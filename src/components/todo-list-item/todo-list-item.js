@@ -4,16 +4,18 @@ import './todo-list-item.css';
 
 export default class TodoListItem extends React.Component {
          state = {
-             done: false
+             done: this.props.check
          };
 
         checkTask = () => {
-            this.setState((state) =>{
-                return{
+            this.setState((state) => {
+                return {
                     done: !state.done
+
                 }
             });
             this.props.checkedTask();
+            this.props.onCheck();
         };
 
 
