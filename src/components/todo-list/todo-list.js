@@ -34,6 +34,7 @@ render(){
                               label={item.label}
                               onDeleted={()=>this.props.onDeleted(item.id)}
                               checkedTask={this.checkTaskColor}
+                              check={item.check}
                 />
         );
     });

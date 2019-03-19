@@ -5,24 +5,30 @@ import AppHeader from '../app-header/app-header.js';
 import TodoList  from '../todo-list/todo-list.js';
 import TodoListItemAdd from '../todo-list-item-add/todo-list-item-add.js';
 import ItemStatusFilter from '../item-status-filter/item-status-filter.js';
+import SortList from '../sort/sort';
 
 import './app.css'
 
 export default class App extends React.Component {
 
-    maxId = 3;
+    maxId = Math.random();
 
     state = {
-        todoData : [
-            {date:'18.03.2019', label: 'Drink Coffee', id: 0},
-            {date:'18.03.2019', label: 'Make Awesome App', id: 1 },
-            {date:'18.03.2019', label: 'Have a lunch', id: 2}
-        ],
+        todoData : JSON.parse(localStorage.getItem("Tasks")) || [],
         term: '',
         valueMin: '',
         valueMax: ''
     };
 
+
+/*(function(){
+        const returnObj = JSON.parse(localStorage.getItem("myKey"));
+    this.setState((state)=>{
+        return{
+             todoData: returnObj
+        }
+    })
+    })();*/
    onSearchChange = (term) =>{
       this.setState({term});
     };
@@ -63,7 +69,7 @@ export default class App extends React.Component {
           const idx = state.todoData.findIndex((el) => el.id === id);
 
           const newArray = [...state.todoData.slice(0, idx), ...state.todoData.slice(idx + 1)];
-
+          localStorage.setItem('Tasks', JSON.stringify(newArray));
           return{
               todoData: newArray
           }
@@ -72,19 +78,77 @@ export default class App extends React.Component {
     };
 
     addedItem = (date, text) =>{
-     const newItem = {
+        const newItem = {
          date: date,
          label: text,
-         id: this.maxId++
+         id: this.maxId++,
+         check: true
      };
 
      this.setState((state) => {
          const newArr = [...state.todoData, newItem];
-
+         localStorage.setItem('Tasks', JSON.stringify(newArr));
          return{
              todoData: newArr
          }
      });
+    };
+
+    dateSortUp = (taskBlockA, taskBlockB) => {
+        return new Date(this.LabelInDate(taskBlockA.date)) - new Date(this.LabelInDate(taskBlockB.date));
+    };
+
+    dateSortDown = (taskBlockA, taskBlockB) => {
+        return new Date(this.LabelInDate(taskBlockB.date)) - new Date(this.LabelInDate(taskBlockA.date));
+    };
+
+    textSortUp = (taskBlockA, taskBlockB) => {
+        if (taskBlockA.label.toUpperCase() < taskBlockB.label.toUpperCase()) return 1;
+    };
+
+    textSortDown = (taskBlockA, taskBlockB) => {
+        if (taskBlockA.label.toUpperCase() > taskBlockB.label.toUpperCase()) return 1;
+    };
+
+
+    onSortDateUp = () =>{
+     this.setState((state)=>{
+         const sortArray = state.todoData.slice(0);
+           sortArray.sort(this.dateSortUp);
+           return{
+               todoData: sortArray
+           }
+     })
+    };
+
+    onSortDateDown = () =>{
+        this.setState((state)=>{
+            const sortArray = state.todoData.slice(0);
+            sortArray.sort(this.dateSortDown);
+            return{
+                todoData: sortArray
+            }
+        })
+    };
+
+    onSortTextUp = () =>{
+        this.setState((state)=>{
+            const sortArray = state.todoData.slice(0);
+            sortArray.sort(this.textSortUp);
+            return{
+                todoData: sortArray
+            }
+        })
+    };
+
+    onSortTextDown = () =>{
+        this.setState((state)=>{
+            const sortArray = state.todoData.slice(0);
+            sortArray.sort(this.textSortDown);
+            return{
+                todoData: sortArray
+            }
+        })
     };
 
 render(){
@@ -103,6 +167,12 @@ render(){
             </div>
             <AppHeader/>
             <TodoListItemAdd onItemAdd={this.addedItem}/>
+            <SortList
+                onSortDateUp={this.onSortDateUp}
+                onSortDateDown={this.onSortDateDown}
+                onSortTextUp={this.onSortTextUp}
+                onSortTextDown={this.onSortTextDown}
+            />
             <TodoList
                 todos={visibleItems}
                 onDeleted={this.deleteItem}

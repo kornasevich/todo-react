@@ -1,0 +1,30 @@
+.sort-list_up{
+    border: 5px solid transparent;
+    border-bottom: 10px solid #DC3545;
+    margin:auto 0;
+}
+
+.sort-list_down{
+    border: 5px solid transparent;
+    border-top: 10px solid #DC3545;
+    margin:5px;
+}
+
+.sort-list_date{
+    width:5px;
+    display: flex;
+    position: relative;
+    left:50px;
+}
+
+.sort{
+    position: relative;
+}
+
+.sort-list_text{
+    width:5px;
+    display: flex;
+    position: absolute;
+    left:200px;
+top:0;
+}
